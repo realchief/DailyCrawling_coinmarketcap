@@ -160,7 +160,4 @@ if __name__ == "__main__":
                     next_call = now + time_between_calls
                     get_data()
                 except:
-                    sleep(3600)
                     continue
-            else:
-                sleep(3600)
