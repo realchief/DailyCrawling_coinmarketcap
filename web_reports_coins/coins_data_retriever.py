@@ -92,14 +92,14 @@ class MyMongoClient(Subscriber):
         self.database = self._c[db_name]
 
 
-class TradingMongoClient(MyMongoClient):
-    def insert_one(self, data):
-        """
-        Parses the message and converts it into a dictionary before storing it
-        """
-        data = {data[0].isoformat().split(".")[0]: data}
-        self.collection.insert_one(data)
-        print('Inserted: \n{}'.format(data))
+# class TradingMongoClient(MyMongoClient):
+#     def insert_one(self, data):
+#         """
+#         Parses the message and converts it into a dictionary before storing it
+#         """
+#         data = {data[0].isoformat().split(".")[0]: data}
+#         self.collection.insert_one(data)
+#         print('Inserted: \n{}'.format(data))
 
 
 def get_arg(index, default=None):
@@ -113,8 +113,8 @@ def get_arg(index, default=None):
 
 
 def get_data():
-    data = requests.get('https://coinmarketcap.com/all/views/all/')
-    data_content = html.fromstring(data.content)
+    response = requests.get('https://coinmarketcap.com/all/views/all/')
+    data_content = html.fromstring(response.content)
     db_name = 'cc_coins'
 
     currency_lists = data_content.xpath(
@@ -139,7 +139,7 @@ def get_data():
             '% 7d': currency_data[9]
         }
         currency_name = currency_data[2]
-        coin_name = get_arg(1, currency_name)
+        coin_name = get_arg(2, currency_name)
         # key = 'b7c761ab7ca0fbe560a1c6941f49e8b0'
         # secret = '72fc68c63ba7ab80cc65fb9cf1d214f7'
 
@@ -161,7 +161,7 @@ if __name__ == "__main__":
 
         # Time setting.
         next_call = dt.datetime.now()
-        time_between_calls = dt.timedelta(seconds=int(get_arg(2, 300)))
+        time_between_calls = dt.timedelta(seconds=int(get_arg(2, 3600)))
         # Main loop.
         while True:
             now = dt.datetime.now()
@@ -170,7 +170,7 @@ if __name__ == "__main__":
                     next_call = now + time_between_calls
                     get_data()
                 except:
-                    sleep(300)
+                    sleep(3600)
                     continue
             else:
-                sleep(300)
+                sleep(3600)
