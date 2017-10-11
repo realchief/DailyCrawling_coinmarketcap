@@ -72,10 +72,10 @@ class MyMongoClient(Subscriber):
         key = datetime.datetime.now().replace(second=0, microsecond=0)
         data = {self.db_name: {self.collection_name: [msg]}}
 
-        if (self.redis.exists(key)):
+        if self.redis.exists(key):
             data = literal_eval(self.redis.get(key))
             print(data)
-            if (data.has_key(self.db_name) and data[self.db_name].has_key(self.collection_name)):
+            if data.has_key(self.db_name) and data[self.db_name].has_key(self.collection_name):
 
                 if type(msg) == list:
                     data[self.db_name][self.collection_name].extend(msg)
@@ -161,16 +161,16 @@ if __name__ == "__main__":
 
         # Time setting.
         next_call = dt.datetime.now()
-        time_between_calls = dt.timedelta(seconds=int(get_arg(2, 30)))
+        time_between_calls = dt.timedelta(seconds=int(get_arg(2, 300)))
         # Main loop.
         while True:
             now = dt.datetime.now()
             if now >= next_call:
                 try:
-                    get_data()
                     next_call = now + time_between_calls
+                    get_data()
                 except:
-                    sleep(600)
+                    sleep(300)
                     continue
             else:
-                sleep(600)
+                sleep(300)
