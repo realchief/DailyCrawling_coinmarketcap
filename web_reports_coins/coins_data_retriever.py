@@ -92,16 +92,6 @@ class MyMongoClient(Subscriber):
         self.database = self._c[db_name]
 
 
-# class TradingMongoClient(MyMongoClient):
-#     def insert_one(self, data):
-#         """
-#         Parses the message and converts it into a dictionary before storing it
-#         """
-#         data = {data[0].isoformat().split(".")[0]: data}
-#         self.collection.insert_one(data)
-#         print('Inserted: \n{}'.format(data))
-
-
 def get_arg(index, default=None):
     """
     Grabs a value from the command line or returns the default one.
