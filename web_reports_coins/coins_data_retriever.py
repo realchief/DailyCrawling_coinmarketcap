@@ -151,7 +151,7 @@ if __name__ == "__main__":
 
         # Time setting.
         next_call = dt.datetime.now()
-        time_between_calls = dt.timedelta(seconds=int(get_arg(2, 3600)))
+        time_between_calls = dt.timedelta(seconds=int(get_arg(2, 60)))
         # Main loop.
         while True:
             now = dt.datetime.now()
